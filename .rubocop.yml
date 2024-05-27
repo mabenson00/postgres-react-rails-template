@@ -1,0 +1,28 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-performance
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.1
+
+Rails:
+  Enabled: true
+
+RSpec:
+  Enabled: true
+
+Performance:
+  Enabled: true
+
+
+FactoryBot:
+  Enabled: true
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/Documentation:
+  Enabled: false
+# Add any additional custom rules or overrides below
