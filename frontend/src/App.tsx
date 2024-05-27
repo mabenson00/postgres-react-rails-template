@@ -1,9 +1,10 @@
+// src/App.tsx
 import React from 'react';
 import { useQuery, gql } from '@apollo/client';
-import logo from './logo.svg';
 import './App.css';
+import CreateTask from './components/tasks/createTask';
+import TaskItem from './components/tasks/taskItem';
 
-// TODO: Figure out why "due_date" gives error. Null?
 const GET_TASKS = gql`
   query GetTasks {
     tasks {
@@ -16,20 +17,8 @@ const GET_TASKS = gql`
   }
 `;
 
-const CREATE_TASK = gql`
-  mutation {
-  createTask(input: { taskInput: { title: "GraphQL blog", description: "GraphQL and Ruby on Rails"  }}) {
-    task {
-      id
-      title
-      description
-    }
-  }
-}
-`;
-
 const App: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_TASKS);
+  const { loading, error, data, refetch } = useQuery(GET_TASKS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
@@ -37,10 +26,22 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <main>
+        <div>
+          <h1>Task Manager</h1>
+          <CreateTask refetch={refetch} />
+        </div>
         <h1>Tasks</h1>
-        <ul>
+        <ul className="task-list">
           {data.tasks.map((task: any) => (
-            <li key={task.id}>{task.title}</li>
+            <TaskItem
+              key={task.id}
+              id={task.id}
+              title={task.title}
+              description={task.description}
+              dueDate={task.dueDate}
+              completed={task.completed}
+              refetch={refetch}
+            />
           ))}
         </ul>
       </main>
