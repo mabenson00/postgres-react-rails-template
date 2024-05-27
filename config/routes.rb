@@ -11,16 +11,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  if Rails.env.development?
-    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
-  end
+  mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql" if Rails.env.development?
 
   post "/graphql", to: "graphql#execute"
 
-
   namespace :api do
     namespace :v1 do
-      resources :tasks, only: %i[index show create update destroy]
+      # resources :tasks, only: %i[index show create update destroy]
     end
   end
 end
