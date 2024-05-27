@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Task do
   it "has a valid factory" do
     expect(build(:task)).to be_valid
