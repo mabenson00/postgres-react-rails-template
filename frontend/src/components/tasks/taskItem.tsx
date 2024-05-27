@@ -15,7 +15,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, description, dueDate, co
   const [updateTaskCompletion] = useMutation(UPDATE_TASK_COMPLETION);
 
   const handleCheckboxChange = () => {
-    updateTaskCompletion({ variables: { input: { id, completed: !completed } } }).then(() => {
+    updateTaskCompletion({ variables: { id, completed: !completed } }).then(() => {
       refetch();
     });
   };
