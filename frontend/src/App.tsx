@@ -1,26 +1,38 @@
 import React from 'react';
+import { useQuery, gql } from '@apollo/client';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+// TODO: Figure out why "due_date" gives error. Null?
+const GET_TASKS = gql`
+  query GetTasks {
+    tasks {
+      id
+      title
+      description
+      completed
+    }
+  }
+`;
+
+const App: React.FC = () => {
+  const { loading, error, data } = useQuery(GET_TASKS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <main>
+        <h1>Tasks</h1>
+        <ul>
+          {data.tasks.map((task: any) => (
+            <li key={task.id}>{task.title}</li>
+          ))}
+        </ul>
+      </main>
     </div>
   );
-}
+};
 
 export default App;
