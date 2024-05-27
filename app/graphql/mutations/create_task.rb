@@ -1,16 +1,24 @@
-# frozen_string_literal: true
-
 module Mutations
   class CreateTask < BaseMutation
-    # TODO: define return fields
-    # field :post, Types::PostType, null: false
+    field :task, Types::TaskType, null: true
+    field :errors, [String], null: false
 
-    # TODO: define arguments
-    # argument :name, String, required: true
+    argument :task_input, Types::TaskInputType, required: true
 
-    # TODO: define resolve method
-    # def resolve(name:)
-    #   { post: ... }
-    # end
+    def resolve(task_input:)
+      task = Task.new
+      task.assign_attributes(task_input.to_h)
+      if task.save
+        {
+          task:,
+          errors: []
+        }
+      else
+        {
+          task: nil,
+          errors: task.errors.full_messages
+        }
+      end
+    end
   end
 end

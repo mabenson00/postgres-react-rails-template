@@ -16,6 +16,18 @@ const GET_TASKS = gql`
   }
 `;
 
+const CREATE_TASK = gql`
+  mutation {
+  createTask(input: { taskInput: { title: "GraphQL blog", description: "GraphQL and Ruby on Rails"  }}) {
+    task {
+      id
+      title
+      description
+    }
+  }
+}
+`;
+
 const App: React.FC = () => {
   const { loading, error, data } = useQuery(GET_TASKS);
 
